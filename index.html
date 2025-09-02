@@ -6,6 +6,7 @@
     <title>小学生必背古诗词75首</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* 原有样式保持不变 */
         * {
             margin: 0;
             padding: 0;
@@ -69,9 +70,6 @@
             position: relative;
             text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
-        /* 如果要改变网页标题的字体大小，可以在这里调整h1的font-size值 */
-        /* 例如：将font-size: 2.2rem; 改为font-size: 1.8rem; */
         
         .subtitle {
             font-size: 1.1rem;
@@ -662,7 +660,7 @@
         // 完整的75首诗词数据
         const poems = [
            { id: 1, title: "江南", author: "汉乐府", content: "江南可采莲，莲叶何田田。鱼戏莲叶东，鱼戏莲叶西，鱼戏莲叶南，鱼戏莲叶北。", explanation: "青年男女在江边采莲，茂盛的莲叶在江中生长，有些游鱼在莲叶间穿梭往还。鱼儿一会儿游向东，一会儿游向西，一会儿游向南，一会儿游各北，无拘无束，怡然自得。" },
-            { id: 2, title: "长歌行", author: "汉乐府", content: "青青园中葵，朝露待日晞。阳春布德泽，万物生光辉。常恐秋节至，焜黄华叶衰。百川东到海，何时复西归?少壮不努力，老大徒伤悲。", explanation: "园中的葵菜都郁郁葱葱，晶莹的朝露阳光下飞升。春天把希望洒满了大地，万物都呈现出一派繁荣。常恐那肃杀的秋天来到，树叶儿黄落百草也凋零。百川奔腾着东流到大海，何时才能重新返回西境？少年人如果不及时努力，到老来只能是悔恨一生。" },
+            { id: 2, title: "长歌行", author: "汉乐府", content: "青青园中葵，朝露待日晞。阳春布德泽，万物生光辉。常恐秋节至，焜黄华叶衰。百川东到海，何时复西归？少壮不努力，老大徒伤悲。", explanation: "园中的葵菜都郁郁葱葱，晶莹的朝露阳光下飞升。春天把希望洒满了大地，万物都呈现出一派繁荣。常恐那肃杀的秋天来到，树叶儿黄落百草也凋零。百川奔腾着东流到大海，何时才能重新返回西境？少年人如果不及时努力，到老来只能是悔恨一生。" },
             { id: 3, title: "敕勒歌", author: "北朝民歌", content: "敕勒川，阴山下，天似穹庐，笼盖四野。天苍苍，野茫茫，风吹草低见牛羊。", explanation: "敕勒人生活的原野在阴山脚下，这里的天幕象毡帐篷一样笼罩着辽阔的大地。苍天浩渺无边，草原茫茫无际，每当大风儿吹来草儿低伏的时候，放牧的牛羊就显现出来。" },
             { id: 4, title: "咏鹅", author: "骆宾王", content: "鹅鹅鹅，曲项向天歌，白毛浮绿水，红掌拨清波。", explanation: "“呷哦，呷哦，”——多好看的鹅！曲着脖子仰起头，对着青天唱赞歌。雪白的毛，碧绿的水，一对鲜红的脚掌，轻轻地，拨弄起两行清清的水波。" },
             { id: 5, title: "风", author: "李峤", content: "解落三秋叶，能开二月花。过江千尺浪，入竹万竿斜。", explanation: "风，能使晚秋的树叶脱落，能催开早春二月的鲜花，它经过江河时能掀起千尺巨浪， 刮进竹林时可把万棵翠竹吹得歪歪斜斜。" },
@@ -741,7 +739,7 @@
         // 用于接龙游戏的诗词名句库 - 根据完整的诗词数据动态生成
         const famousLines = [];
         poems.forEach(poem => {
-            const lines = poem.content.split(/[，。；？]/).filter(line => line.trim() !== '');
+            const lines = poem.content.split(/[，。；？：]/).filter(line => line.trim() !== '');
             lines.forEach(line => {
                 famousLines.push({ content: line, poemId: poem.id });
             });
@@ -788,7 +786,18 @@
             currentPoem = poem;
             document.getElementById('detail-title').textContent = poem.title;
             document.getElementById('detail-author').textContent = `(${poem.author})`;
-            document.getElementById('poem-content').textContent = poem.content;
+           document.getElementById('poem-content').innerHTML =
+    poem.content
+        .split(/([，。；？：])/g)   // 捕获分隔符
+        .reduce((arr, seg, idx) => {
+            if (idx % 2) {           // 奇数下标是标点
+                arr[arr.length - 1] += seg;
+            } else if (seg.trim()) { // 偶数下标是诗句
+                arr.push(seg.trim());
+            }
+            return arr;
+        }, [])
+        .join('<br>');
             document.getElementById('poem-explanation').textContent = poem.explanation;
             
             // 切换到详情页
@@ -814,12 +823,39 @@
                     
                     // 切换到游戏模式时生成新题目
                     if (tab.dataset.target === 'game-mode') {
+                        resetGameScores();
                         generateGameQuestion();
+                    }
+                    
+                    // 切换到背诵模式时随机选择一首诗
+                    if (tab.dataset.target === 'recite-mode') {
+                        const randomPoem = poems[Math.floor(Math.random() * poems.length)];
+                        currentPoem = randomPoem;
+                        generateReciteContent(randomPoem);
+                        resetReciteScores();
                     }
                     
                     showSection(tab.dataset.target);
                 });
             });
+        }
+
+        // 重置游戏分数
+        function resetGameScores() {
+            gameScore = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            document.getElementById('game-score').textContent = gameScore;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('wrong-count').textContent = wrongCount;
+        }
+
+        // 重置背诵分数
+        function resetReciteScores() {
+            reciteScore = 0;
+            errorCount = 0;
+            document.getElementById('recite-score').textContent = reciteScore;
+            document.getElementById('error-count').textContent = errorCount;
         }
         
         // 生成接龙游戏题目
@@ -832,7 +868,7 @@
             if (!poem) return;
             
             // 分割诗句
-            const lines = poem.content.split(/[，。；？]/).filter(line => line.trim() !== '');
+            const lines = poem.content.split(/[，。；？：]/).filter(line => line.trim() !== '');
             const lineIndex = lines.findIndex(line => line.includes(correctLine.content));
             
             if (lineIndex === -1) return;
@@ -926,10 +962,9 @@
                 
                 if (wrongCount >= 5) {
                     setTimeout(() => {
-                        alert('游戏结束！错误次数已达5次');
+                        alert(`游戏结束！累计积分：${gameScore}`);
                         showSection('poem-list');
-                        wrongCount = 0;
-                        document.getElementById('wrong-count').textContent = wrongCount;
+                        resetGameScores();
                     }, 1000);
                 }
             }
@@ -937,80 +972,101 @@
             // 1秒后进入下一题
             setTimeout(() => {
                 generateGameQuestion();
-            }, 1000);
+            }, 500);
         }
         
         // 生成背诵内容
         function generateReciteContent(poem) {
-    const lines = poem.content.split(/[，。；？]/).filter(line => line.trim() !== '');
-    let contentHTML = `
-        <h3 style="margin-bottom: 15px; color: var(--primary);">${poem.title}</h3>
-        <p>请填写空白处的诗句：</p>
-    `;
+            const lines = poem.content.split(/[，。；？：]/).filter(line => line.trim() !== '');
+            let contentHTML = `
+                <h3 style="margin-bottom: 15px; color: var(--primary);">${poem.title}</h3>
+                <p>请填写空白处的诗句：</p>
+            `;
 
-    lines.forEach(line => {
-        const showLine = Math.random() > 0.5; // 50%的概率显示整行
-        
-        if (showLine) {
-            contentHTML += `<p>${line}</p>`;
-        } else {
-            contentHTML += `<p><input type="text" class="blank-input" data-answer="${line}"></p>`;
-        }
-    });
-    
-    reciteContent.innerHTML = contentHTML;
-}
-        
-        // 检查背诵答案
-        function checkReciteAnswer() {
-            const inputs = document.querySelectorAll('.blank-input');
-            let allCorrect = true;
-            
-            inputs.forEach(input => {
-                const userAnswer = input.value.trim();
-                const correctAnswer = input.dataset.answer;
+            lines.forEach(line => {
+                const showLine = Math.random() > 0.8; // 20%的概率显示整行
                 
-                if (userAnswer === correctAnswer) {
-                    input.style.color = '#27ae60';
-                    input.style.borderBottom = '2px solid #27ae60';
+                if (showLine) {
+                    contentHTML += `<p>${line}</p>`;
                 } else {
-                    input.style.color = '#e74c3c';
-                    input.style.borderBottom = '2px solid #e74c3c';
-                    allCorrect = false;
+                    contentHTML += `<p><input type="text" class="blank-input" data-answer="${line}"></p>`;
                 }
             });
             
-            if (allCorrect) {
-                reciteScore += 10;
-                document.getElementById('recite-score').textContent = reciteScore;
-                setTimeout(() => {
-                    alert('恭喜！全部答对了！');
-                    showSection('poem-detail');
-                }, 500);
-            } else {
-                errorCount++;
-                document.getElementById('error-count').textContent = errorCount;
-                
-                if (errorCount >= 5) {
-                    setTimeout(() => {
-                        alert('背诵结束！错误次数已达5次');
-                        showSection('poem-detail');
-                        errorCount = 0;
-                        document.getElementById('error-count').textContent = errorCount;
-                    }, 500);
-                }
-            }
+            reciteContent.innerHTML = contentHTML;
         }
         
-// 重置诗词标题显示
-    if (currentPoem) {
+        // 检查背诵答案
+       function checkReciteAnswer() {
+    const inputs = document.querySelectorAll('.blank-input');
+    let allCorrect = true;
+
+    inputs.forEach(input => {
+        const userAnswer = input.value.trim();
+        const correctAnswer = input.dataset.answer;
+
+        // 按字符逐一比对
+        let html = '';
+        for (let i = 0; i < correctAnswer.length; i++) {
+    if (i < userAnswer.length && userAnswer[i] === correctAnswer[i]) {
+        html += `<span style="color:#27ae60">${correctAnswer[i]}</span>`; // 正确→绿色
+    } else {
+        html += `<span style="color:#e74c3c">${correctAnswer[i]}</span>`;  // 错误→红色
+        allCorrect = false;
+    }
+}
+
+        // 把正确答案（带红字标记）显示在输入框下方
+        const span = document.createElement('span');
+        span.innerHTML = html;
+        span.style.fontSize = '1.2rem';
+        span.style.marginLeft = '5px';
+        input.parentNode.appendChild(span);
+
+        // 禁用输入框，避免再次编辑
+        input.disabled = true;
+    });
+
+    // 原有逻辑：统计分数等保持不变
+    if (allCorrect) {
+        reciteScore += 10;                      // 答对 +10
+        document.getElementById('recite-score').textContent = reciteScore;
+        setTimeout(nextRecitePoem, 500);        // 继续下一首
+    } else {
+        errorCount++;
+        document.getElementById('error-count').textContent = errorCount;
+        if (errorCount >= 5) {
+            setTimeout(() => {
+                alert(`背诵结束！累计积分：${reciteScore}`);
+                showSection('poem-list');
+                resetReciteScores();
+            }, 500);
+        }
+    }
+}
+
+// 随机下一首
+function nextRecitePoem() {
+    const randomPoem = poems[Math.floor(Math.random() * poems.length)];
+    currentPoem = randomPoem;
+    generateReciteContent(randomPoem);
+}
+
+// 重置背诵分数
+function resetReciteScores() {
+    reciteScore = 0;
+    errorCount = 0;
+    document.getElementById('recite-score').textContent = reciteScore;
+    document.getElementById('error-count').textContent = errorCount;
+}
+        
+        // 重置诗词标题显示
         const titleElement = document.querySelector('.recite-content h3');
         if (titleElement) {
             titleElement.style.color = '';
         }
-    }
-
-      // 初始化事件监听
+        
+        // 初始化事件监听
         function initEventListeners() {
             backToListBtn.addEventListener('click', () => {
                 showSection('poem-list');
@@ -1021,8 +1077,7 @@
                     showSection('recite-mode');
                     generateReciteContent(currentPoem);
                     // 重置背诵状态
-                    errorCount = 0;
-                    document.getElementById('error-count').textContent = errorCount;
+                    resetReciteScores();
                     document.querySelectorAll('.blank-input').forEach(input => {
                         input.value = '';
                         input.style.color = '';
@@ -1033,6 +1088,7 @@
             
             startGameBtn.addEventListener('click', () => {
                 showSection('game-mode');
+                resetGameScores();
                 generateGameQuestion();
             });
             
@@ -1041,17 +1097,10 @@
             
             // 退出背诵按钮
             document.getElementById('recite-exit').addEventListener('click', () => {
-                showSection('poem-detail');
+                showSection('poem-list');
             });
         }
-     
-	// 重置诗词标题显示
-	    const titleElement = document.querySelector('.recite-content h3');
-  	  if (titleElement) {
-  	      titleElement.style.color = '';
-   		 }
-	
-   
+        
         // 初始化应用
         function initApp() {
             initPoemList();
@@ -1063,5 +1112,4 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
-
 </html>
