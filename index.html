@@ -6,7 +6,6 @@
     <title>义务教育阶段优秀诗文背诵篇目</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* 原有样式保持不变 */
         * {
             margin: 0;
             padding: 0;
@@ -15,37 +14,35 @@
         }
         
         :root {
-            --primary: #4285F4;      /* 改为更明亮的蓝色 */
-            --primary-light: #64B5F6; /* 更亮的蓝色 */
-            --secondary: #FF7043;    /* 改为活力的橙色 */
-            --accent: #FFB300;       /* 改为明亮的琥珀色 */
-            --light: #FFFFFF;        /* 改为纯白色 */
-            --dark: #37474F;         /* 改为深蓝灰色 */
-            --success: #66BB6A;      /* 更清新的绿色 */
-            --danger: #FF5252;       /* 更亮的红色 */
-            --gray: #B0BEC5;         /* 更亮的灰色 */
+            --primary: #4285F4;
+            --primary-light: #64B5F6;
+            --secondary: #FF7043;
+            --accent: #FFB300;
+            --light: #FFFFFF;
+            --dark: #37474F;
+            --success: #66BB6A;
+            --danger: #FF5252;
+            --gray: #B0BEC5;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
 
-        /* 1-6年级主题颜色 */
         .primary-theme {
-            --primary: #4CAF50;      /* 绿色 */
+            --primary: #4CAF50;
             --primary-light: #81C784; 
-            --secondary: #FF9800;    /* 橙色 */
-            --accent: #FFC107;       /* 琥珀色 */
+            --secondary: #FF9800;
+            --accent: #FFC107;
         }
 
-        /* 7-9年级主题颜色（默认） */
         .junior-theme {
-            --primary: #4285F4;      /* 蓝色 */
+            --primary: #4285F4;
             --primary-light: #64B5F6; 
-            --secondary: #FF7043;    /* 橙色 */
-            --accent: #FFB300;       /* 琥珀色 */
+            --secondary: #FF7043;
+            --accent: #FFB300;
         }
 
         body {
-            background: linear-gradient(135deg, #E3F2FD, #BBDEFB); /* 更明亮的蓝色渐变 */
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
             color: var(--dark);
             min-height: 100vh;
             padding-bottom: 60px;
@@ -53,7 +50,7 @@
         }
 
         .primary-theme body {
-            background: linear-gradient(135deg, #E8F5E9, #C8E6C9); /* 绿色渐变 */
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
         }
         
         .container {
@@ -97,7 +94,6 @@
             opacity: 0.9;
         }
 
-        /* 年级选择器样式 */
         .grade-selector {
             display: flex;
             justify-content: center;
@@ -125,6 +121,36 @@
         }
         
         .grade-btn:not(.active):hover {
+            background: rgba(78, 124, 156, 0.1);
+        }
+        
+        .term-selector {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        
+        .term-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            background: white;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        .term-btn.active {
+            background: var(--primary-light);
+            color: white;
+        }
+        
+        .term-btn:not(.active):hover {
             background: rgba(78, 124, 156, 0.1);
         }
         
@@ -174,7 +200,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* 诗词列表样式 */
         .poem-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -195,7 +220,7 @@
             flex-direction: column;
             justify-content: center;
             padding: 15px;
-            border-left: 4px solid var(--primary); /* 使用新的主色 */
+            border-left: 4px solid var(--primary);
         }
         
         .poem-item:hover {
@@ -231,13 +256,13 @@
             color: var(--gray);
         }
         
-        /* 诗词详情页样式 */
         .poem-detail {
             background: white;
             border-radius: 20px;
             padding: 25px;
             box-shadow: var(--shadow);
             margin-bottom: 25px;
+            position: relative;
         }
         
         .back-button {
@@ -329,7 +354,7 @@
         }
 
         .game-btn {
-            background: linear-gradient(135deg, var(--accent), #FFC400); /* 更新为新的强调色 */
+            background: linear-gradient(135deg, var(--accent), #FFC400);
         }
         
         .action-button:hover {
@@ -342,7 +367,40 @@
             margin-bottom: 10px;
         }
         
-        /* 背诵模式样式 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .nav-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .nav-btn i {
+            margin: 0 5px;
+        }
+        
         .recite-mode {
             background: white;
             border-radius: 20px;
@@ -384,7 +442,7 @@
             display: inline-block;
             min-width: 150px;
             border: none;
-            border-bottom: 2px dashed var(--secondary); /* 使用新的次要色 */
+            border-bottom: 2px dashed var(--secondary);
             margin: 0 5px;
             text-align: center;
             font-size: 1.2rem;
@@ -394,7 +452,7 @@
         }
 
         .blank-input:focus {
-            border-bottom: 2px solid var(--primary); /* 使用新的主色 */
+            border-bottom: 2px solid var(--primary);
         }
         
         .recite-controls {
@@ -431,7 +489,6 @@
             font-weight: 500;
         }
         
-        /* 接龙游戏样式 */
         .game-mode {
             background: white;
             border-radius: 20px;
@@ -506,7 +563,6 @@
             font-weight: 500;
         }
         
-        /* 响应式调整 */
         @media (max-width: 600px) {
             .container {
                 padding: 10px;
@@ -527,6 +583,11 @@
             .grade-btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
+            }
+            
+            .term-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
             }
             
             .poem-list {
@@ -590,6 +651,16 @@
                 font-size: 0.95rem;
                 padding: 15px;
             }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
         
         footer {
@@ -608,10 +679,35 @@
             <div class="subtitle">品味诗词之美，传承文化精髓</div>
         </header>
         
-        <!-- 年级选择器 -->
         <div class="grade-selector">
             <button class="grade-btn" id="primary-grade">1-6年级</button>
             <button class="grade-btn active" id="junior-grade">7-9年级</button>
+        </div>
+        
+        <div class="term-selector" id="primary-term-selector" style="display: none;">
+            <button class="term-btn active" data-term="all" data-grade="primary">全部</button>
+            <button class="term-btn" data-term="1上" data-grade="primary">一年级上</button>
+            <button class="term-btn" data-term="1下" data-grade="primary">一年级下</button>
+            <button class="term-btn" data-term="2上" data-grade="primary">二年级上</button>
+            <button class="term-btn" data-term="2下" data-grade="primary">二年级下</button>
+            <button class="term-btn" data-term="3上" data-grade="primary">三年级上</button>
+            <button class="term-btn" data-term="3下" data-grade="primary">三年级下</button>
+            <button class="term-btn" data-term="4上" data-grade="primary">四年级上</button>
+            <button class="term-btn" data-term="4下" data-grade="primary">四年级下</button>
+            <button class="term-btn" data-term="5上" data-grade="primary">五年级上</button>
+            <button class="term-btn" data-term="5下" data-grade="primary">五年级下</button>
+            <button class="term-btn" data-term="6上" data-grade="primary">六年级上</button>
+            <button class="term-btn" data-term="6下" data-grade="primary">六年级下</button>
+        </div>
+        
+        <div class="term-selector" id="junior-term-selector">
+            <button class="term-btn active" data-term="all" data-grade="junior">全部</button>
+            <button class="term-btn" data-term="7上" data-grade="junior">七年级上</button>
+            <button class="term-btn" data-term="7下" data-grade="junior">七年级下</button>
+            <button class="term-btn" data-term="8上" data-grade="junior">八年级上</button>
+            <button class="term-btn" data-term="8下" data-grade="junior">八年级下</button>
+            <button class="term-btn" data-term="9上" data-grade="junior">九年级上</button>
+            <button class="term-btn" data-term="9下" data-grade="junior">九年级下</button>
         </div>
         
         <div class="tabs">
@@ -626,14 +722,12 @@
             </div>
         </div>
         
-        <!-- 诗词列表部分 -->
         <div class="content-section active" id="poem-list">
             <div class="poem-list">
                 <!-- 诗词列表由JS生成 -->
             </div>
         </div>
         
-        <!-- 诗词详情部分 -->
         <div class="content-section" id="poem-detail">
             <button class="back-button" id="back-to-list">
                 <i class="fas fa-arrow-left"></i> 返回列表
@@ -655,6 +749,15 @@
                     鱼儿一会儿游向东，一会儿游向西，一会儿游向南，一会儿游各北，无拘无束，怡然自得。
                 </div>
                 
+                <div class="nav-buttons">
+                    <button class="nav-btn" id="prev-poem" disabled>
+                        <i class="fas fa-chevron-left"></i> 上一首
+                    </button>
+                    <button class="nav-btn" id="next-poem">
+                        下一首 <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
                 <div class="action-buttons">
                     <button class="action-button recite-btn" id="start-reciting">
                         <i class="fas fa-microphone-alt"></i>
@@ -668,7 +771,6 @@
             </div>
         </div>
         
-        <!-- 背诵模式部分 -->
         <div class="content-section" id="recite-mode">
             <div class="recite-mode">
                 <div class="recite-header">
@@ -691,7 +793,6 @@
             </div>
         </div>
         
-        <!-- 接龙游戏部分 -->
         <div class="content-section" id="game-mode">
             <div class="game-mode">
                 <div class="game-header">
@@ -720,11 +821,11 @@
     </footer>
 
     <script>
-        // 完整的60首诗词数据（7-9年级）
+        // 示例诗词数据
         const juniorPoems = [
           { id: 1, title: "关雎", author: "《诗经》", content: "关关雎鸠，在河之洲。窈窕淑女，君子好逑。参差荇菜，左右流之。窈窕淑女，寤寐求之。求之不得，寤寐思服。悠哉悠哉，辗转反侧。参差荇菜，左右采之。窈窕淑女，琴瑟友之。参差荇菜，左右芼之。窈窕淑女，钟鼓乐之。" },
 { id: 2, title: "蒹葭", author: "《诗经》", content: "蒹葭苍苍，白露为霜。所谓伊人，在水一方。溯洄从之，道阻且长。溯游从之，宛在水中央。蒹葭萋萋，白露未晞。所谓伊人，在水之湄。溯洄从之，道阻且跻。溯游从之，宛在水中坻。蒹葭采采，白露未已。所谓伊人，在水之涘。溯洄从之，道阻且右。溯游从之，宛在水中沚。" },
-{ id: 3, title: "十五从军征", author: "汉乐府", content: "十五从军征，八十始得归。道逢乡里人：“家中有阿谁？”“遥望是君家，松柏冢累累。”兔从狗窦入，雉从梁上飞。中庭生旅谷，井上生旅葵。舂谷持作饭，采葵持作羹。羹饭一时熟，不知贻阿谁。出门东向看，泪落沾我衣。" },
+{ id: 3, title: "十五从军征", author: "汉乐府", content: "十五从军征，八十始得归。道逢乡里人：“家中有阿谁？”“遥看是君家，松柏冢累累。”兔从狗窦入，雉从梁上飞。中庭生旅谷，井上生旅葵。舂谷持作饭，采葵持作羹。羹饭一时熟，不知贻阿谁。出门东向看，泪落沾我衣。" },
 { id: 4, title: "观沧海", author: "东汉·曹操", content: "东临碣石，以观沧海。水何澹澹，山岛竦峙。树木丛生，百草丰茂。秋风萧瑟，洪波涌起。日月之行，若出其中；星汉灿烂，若出其里。幸甚至哉，歌以咏志。" },
 { id: 5, title: "饮酒", author: "东晋·陶潜", content: "结庐在人境，而无车马喧。问君何能尔？心远地自偏。采菊东篱下，悠然见南山。山气日夕佳，飞鸟相与还。此中有真意，欲辨已忘言。" },
 { id: 6, title: "木兰辞", author: "北朝民歌", content: "唧唧复唧唧，木兰当户织。不闻机杼声，惟闻女叹息。问女何所思，问女何所忆。女亦无所思，女亦无所忆。昨夜见军帖，可汗大点兵，军书十二卷，卷卷有爷名。阿爷无大儿，木兰无长兄，愿为市鞍马，从此替爷征。东市买骏马，西市买鞍鞯，南市买辔头，北市买长鞭。旦辞爷娘去，暮宿黄河边，不闻爷娘唤女声，但闻黄河流水鸣溅溅。旦辞黄河去，暮至黑山头，不闻爷娘唤女声，但闻燕山胡骑鸣啾啾。万里赴戎机，关山度若飞。朔气传金柝，寒光照铁衣。将军百战死，壮士十年归。归来见天子，天子坐明堂。策勋十二转，赏赐百千强。可汗问所欲，木兰不用尚书郎，愿驰千里足，送儿还故乡。爷娘闻女来，出郭相扶将；阿姊闻妹来，当户理红妆；小弟闻姊来，磨刀霍霍向猪羊。开我东阁门，坐我西阁床，脱我战时袍，著我旧时裳。当窗理云鬓，对镜帖花黄。出门看火伴，火伴皆惊忙：同行十二年，不知木兰是女郎。雄兔脚扑朔，雌兔眼迷离；双兔傍地走，安能辨我是雄雌？" },
@@ -761,7 +862,7 @@
 { id: 37, title: "天净沙·秋思", author: "元·马致远", content: "枯藤老树昏鸦，小桥流水人家，古道西风瘦马。夕阳西下，断肠人在天涯。" },
 { id: 38, title: "山坡羊·潼关怀古", author: "元·张养浩", content: "峰峦如聚，波涛如怒，山河表里潼关路。望西都，意踌躇。伤心秦汉经行处，宫阙万间都做了土。兴，百姓苦；亡，百姓苦。" },
 { id: 39, title: "己亥杂诗", author: "清·龚自珍", content: "浩荡离愁白日斜，吟鞭东指即天涯。落红不是无情物，化作春泥更护花。" },
-{ id: 40, title: "满江红", author: "清·秋瑾", content: "小住京华，早又是、中秋佳节。为篱下、黄花开遍，秋容如拭。四面歌残终破楚，八年风味徒思浙。苦将侬、强派作蛾眉，殊未屑！身不得，男儿列；心却比，男儿烈！算平生肝胆，因人常热。俗子胸襟谁识我？英雄末路当磨折。莽红尘、何处觅知音？青衫湿！" },
+{ id: 40, title: "满江红", author: "清·秋瑾", content: "小住京华，早又是中秋佳节。为篱下黄花开遍，秋容如拭。四面歌残终破楚，八年风味徒思浙。苦将侬强派作蛾眉，殊未屑！身不得，男儿列；心却比，男儿烈！算平生肝胆，因人常热。俗子胸襟谁识我？英雄末路当磨折。莽红尘何处觅知音？青衫湿！" },
 { id: 41, title: "《论语》十二章", author: "春秋·孔子及弟子", content: "子曰：“学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知而不愠，不亦君子乎？”——《学而》\n曾子曰：“吾日三省吾身：为人谋而不忠乎？与朋友交而不信乎？传不习乎？”——《学而》\n子曰：“吾十有五而志于学，三十而立，四十而不惑，五十而知天命，六十而耳顺，七十而从心所欲，不逾矩。”——《为政》\n子曰：“温故而知新，可以为师矣。”——《为政》\n子曰：“学而不思则罔，思而不学则殆。”——《为政》\n子曰：“贤哉，回也！一箪食，一瓢饮，在陋巷，人不堪其忧，回也不改其乐。贤哉，回也！”——《雍也》\n子曰：“知之者不如好之者，好之者不如乐之者。”——《雍也》\n子曰：“饭疏食，饮水，曲肱而枕之，乐亦在其中矣。不义而富且贵，于我如浮云。”——《述而》\n子曰：“三人行，必有我师焉。择其善者而从之，其不善者而改之。”——《述而》\n子在川上曰：“逝者如斯夫，不舍昼夜。”——《子罕》\n子曰：“三军可夺帅也，匹夫不可夺志也。”——《子罕》\n子夏曰：“博学而笃志，切问而近思，仁在其中矣。”——《子张》" },
 { id: 42, title: "曹刿论战", author: "春秋·左丘明", content: "十年春，齐师伐我。公将战，曹刿请见。其乡人曰：“肉食者谋之，又何间焉？”刿曰：“肉食者鄙，未能远谋。”乃入见。问：“何以战？”公曰：“衣食所安，弗敢专也，必以分人。”对曰：“小惠未徧，民弗从也。”公曰：“牺牲玉帛，弗敢加也，必以信。”对曰：“小信未孚，神弗福也。”公曰：“小大之狱，虽不能察，必以情。”对曰：“忠之属也。可以一战。战则请从。”公与之乘，战于长勺。公将鼓之。刿曰：“未可。”齐人三鼓。刿曰：“可矣。”齐师败绩。公将驰之。刿曰：“未可。”下视其辙，登轼而望之，曰：“可矣。”遂逐齐师。既克，公问其故。对曰：“夫战，勇气也。一鼓作气，再而衰，三而竭。彼竭我盈，故克之。夫大国，难测也，惧有伏焉。吾视其辙乱，望其旗靡，故逐之。”" },
 { id: 43, title: "《孟子》三则", author: "战国·孟子", content: "（一）鱼，我所欲也；熊掌，亦我所欲也。二者不可得兼，舍鱼而取熊掌者也。生，亦我所欲也；义，亦我所欲也。二者不可得兼，舍生而取义者也。生亦我所欲，所欲有甚于生者，故不为苟得也；死亦我所恶，所恶有甚于死者，故患有所不辟也。如使人之所欲莫甚于生，则凡可以得生者何不用也？使人之所恶莫甚于死者，则凡可以辟患者何不为也？由是则生而有不用也，由是则可以辟患而有不为也。是故所欲有甚于生者，所恶有甚于死者。非独贤者有是心也，人皆有之，贤者能勿丧耳。一箪食，一豆羹，得之则生，弗得则死。呼尔而与之，行道之人弗受；蹴尔而与之，乞人不屑也。万钟则不辩礼义而受之，万钟于我何加焉！为宫室之美，妻妾之奉，所识穷乏者得我与？乡为身死而不受，今为宫室之美为之；乡为身死而不受，今为妻妾之奉为之；乡为身死而不受，今为所识穷乏者得我而为之：是亦不可以已乎？此之谓失其本心。\n（二）景春曰：“公孙衍、张仪岂不诚大丈夫哉？一怒而诸侯惧，安居而天下熄。”孟子曰：“是焉得为大丈夫乎？子未学礼乎？丈夫之冠也，父命之；女子之嫁也，母命之，往送之门，戒之曰：‘往之女家，必敬必戒，无违夫子！’以顺为正者，妾妇之道也。居天下之广居，立天下之正位，行天下之大道。得志，与民由之；不得志，独行其道。富贵不能淫，贫贱不能移，威武不能屈，此之谓大丈夫。”\n（三）舜发于畎亩之中，傅说举于版筑之间，胶鬲举于鱼盐之中，管夷吾举于士，孙叔敖举于海，百里奚举于市。故天将降大任于是人也，必先苦其心志，劳其筋骨，饿其体肤，空乏其身，行拂乱其所为，所以动心忍性，曾益其所不能。人恒过，然后能改；困于心，衡于虑，而后作；征于色，发于声，而后喻。入则无法家拂士，出则无敌国外患者，国恒亡。然后知生于忧患而死于安乐也。" },
@@ -784,7 +885,6 @@
 { id: 60, title: "湖心亭看雪", author: "明·张岱", content: "崇祯五年十二月，余住西湖。大雪三日，湖中人鸟声俱绝。是日更定矣，余拏一小舟，拥毳衣炉火，独往湖心亭看雪。雾凇沆砀，天与云与山与水，上下一白。湖上影子，惟长堤一痕、湖心亭一点、与余舟一芥、舟中人两三粒而已。到亭上，有两人铺毡对坐，一童子烧酒炉正沸。见余，大喜曰：“湖中焉得更有此人！”拉余同饮。余强饮三大白而别。问其姓氏，是金陵人，客此。及下船，舟子喃喃曰：“莫说相公痴，更有痴似相公者！”" }
         ];
 
-        // 1-6年级诗词数据
         const primaryPoems = [
           { id: 1, title: "江南", author: "汉乐府", content: "江南可采莲，莲叶何田田。鱼戏莲叶东，鱼戏莲叶西，鱼戏莲叶南，鱼戏莲叶北。", explanation: "青年男女在江边采莲，茂盛的莲叶在江中生长，有些游鱼在莲叶间穿梭往还。鱼儿一会儿游向东，一会儿游向西，一会儿游向南，一会儿游各北，无拘无束，怡然自得。" },
             { id: 2, title: "长歌行", author: "汉乐府", content: "青青园中葵，朝露待日晞。阳春布德泽，万物生光辉。常恐秋节至，焜黄华叶衰。百川东到海，何时复西归？少壮不努力，老大徒伤悲。", explanation: "园中的葵菜都郁郁葱葱，晶莹的朝露阳光下飞升。春天把希望洒满了大地，万物都呈现出一派繁荣。常恐那肃杀的秋天来到，树叶儿黄落百草也凋零。百川奔腾着东流到大海，何时才能重新返回西境？少年人如果不及时努力，到老来只能是悔恨一生。" },
@@ -863,16 +963,44 @@
             { id: 75, title: "己亥杂诗", author: "龚自珍", content: "九州生气恃风雷，万马齐喑究可哀。我劝天公重抖擞，不拘一格降人才。", explanation: "中华的生机倚仗变革的风雷，这般死气沉沉确实令人悲哀。我劝玉皇大帝重新振作精神，不受常规束缚降生各种人才。" }
         ];
 
+        // 学期诗词ID范围配置
+        const termRanges = {
+            "primary": {
+                "1上": [1,4,5,18,41],
+                "1下": [10,17,20,38,44,63],
+                "2上": [3,9,19,40,43],
+                "2下": [6,25,37,42,64,74],
+                "3上": [22,23,35,45,54,73],
+                "3下": [16,27,30,39,46,50,55,58],
+                "4上": [11,12,14,24,56,57],
+                "4下": [13,28,34,48,61,70],
+                "5上": [29,33,59,66,67,75],
+                "5下": [8,15,21,31,60,62,69],
+                "6上": [7,36,47,52,53,65],
+                "6下": [2,26,32,49,51,68,71,72]
+            },
+            "junior": {
+                "7上": [4,9,11,20,24,37,41],
+                "7下": [6,8,14,23,29,33,39,53,57],
+                "8上": [5,10,13,15,21,22,26,28,32,43,46,50,51,58],
+                "8下": [1,2,7,16,19,44,45,49,52,54],
+                "9上": [12,18,25,31,35,40,55,56,60],
+                "9下": [3,17,27,30,34,36,38,42,47,48,59]
+            }
+        };
+
         // 当前使用的诗词数据
         let currentPoems = juniorPoems;
+        let currentGrade = 'junior';
+        let currentTerms = ['all'];
         
-        // 用于接龙游戏的诗词名句库 - 根据完整的诗词数据动态生成
+        // 用于接龙游戏的诗词名句库
         let famousLines = [];
         
         function updateFamousLines() {
             famousLines = [];
             currentPoems.forEach(poem => {
-                const lines = poem.content.split(/[，。；？：、”]/).filter(line => line.trim() !== '');
+                const lines = poem.content.split(/[，。；？：、”！]/).filter(line => line.trim() !== '');
                 lines.forEach(line => {
                     famousLines.push({ content: line, poemId: poem.id });
                 });
@@ -894,6 +1022,10 @@
         const reciteContent = document.getElementById('recite-content');
         const primaryGradeBtn = document.getElementById('primary-grade');
         const juniorGradeBtn = document.getElementById('junior-grade');
+        const primaryTermSelector = document.getElementById('primary-term-selector');
+        const juniorTermSelector = document.getElementById('junior-term-selector');
+        const prevPoemBtn = document.getElementById('prev-poem');
+        const nextPoemBtn = document.getElementById('next-poem');
         
         // 游戏状态
         let currentPoem = null;
@@ -903,22 +1035,72 @@
         let reciteScore = 0;
         let errorCount = 0;
         let currentGameQuestion = null;
+
+
+//区间展开函数，range（1，3）就是[1，2，3]
+function range(start, end) {
+    const arr = [];
+    for (let i = start; i <= end; i++) arr.push(i);
+    return arr;
+}
+        
+        // 根据选中的学期过滤诗词
+       function filterPoemsByTerms() {
+    const poems = currentGrade === 'primary' ? primaryPoems : juniorPoems;
+    if (currentTerms.includes('all')) return poems;
+
+    const result = [];
+    currentTerms.forEach(term => {
+        const ids = termRanges[currentGrade][term]; // 拿到数组
+        if (!ids) return;
+        // ✅ 支持离散 id
+        ids.forEach(id => {
+            const poem = poems.find(p => p.id === id);
+            if (poem) result.push(poem);
+        });
+    });
+    return result;
+}
         
         // 初始化诗词列表
         function initPoemList() {
-            poemList.innerHTML = '';
-            currentPoems.forEach(poem => {
-                const poemItem = document.createElement('div');
-                poemItem.className = 'poem-item';
-                poemItem.innerHTML = `
-                    <div class="poem-index">${poem.id}</div>
-                    <div class="poem-title">${poem.title}</div>
-                    <div class="poem-author">${poem.author}</div>
-                `;
-                poemItem.addEventListener('click', () => showPoemDetail(poem));
-                poemList.appendChild(poemItem);
-            });
-        }
+    const filteredPoems = filterPoemsByTerms();
+
+    // ✅ 1. 先清空
+    poemList.innerHTML = '';
+
+    // ✅ 2. 添加提示
+    const tip = document.createElement('div');
+    tip.style.gridColumn = '1 / -1';
+    tip.style.textAlign = 'center';
+    tip.style.color = 'var(--primary)';
+    tip.style.fontWeight = 'bold';
+    tip.style.marginBottom = '10px';
+    const termText = currentTerms.includes('all') ? '全部' : currentTerms.join('、');
+    tip.textContent = `当前显示：${currentGrade === 'primary' ? '小学' : '初中'} - ${termText}`;
+    poemList.appendChild(tip);
+
+    // ✅ 3. 添加诗词
+    if (filteredPoems.length === 0) {
+        poemList.innerHTML += '<div style="text-align: center; padding: 20px; color: var(--gray);">当前筛选条件下没有诗词</div>';
+        return;
+    }
+
+    filteredPoems.forEach(poem => {
+        const poemItem = document.createElement('div');
+        poemItem.className = 'poem-item';
+        poemItem.innerHTML = `
+            <div class="poem-index">${poem.id}</div>
+            <div class="poem-title">${poem.title}</div>
+            <div class="poem-author">${poem.author}</div>
+        `;
+        poemItem.addEventListener('click', () => showPoemDetail(poem));
+        poemList.appendChild(poemItem);
+    });
+
+console.log('实际渲染诗词数量：', document.querySelectorAll('.poem-item').length);
+
+}
         
         // 显示诗词详情
         function showPoemDetail(poem) {
@@ -927,7 +1109,7 @@
             document.getElementById('detail-author').textContent = `(${poem.author})`;
             document.getElementById('poem-content').innerHTML =
                 poem.content
-                    .split(/([，。；？：、”])/g)
+                    .split(/([，。；？：、”！])/g)
                     .reduce((arr, seg, idx) => {
                         if (idx % 2) {
                             arr[arr.length - 1] += seg;
@@ -937,10 +1119,39 @@
                         return arr;
                     }, [])
                     .join('<br>');
-            document.getElementById('poem-explanation').textContent = poem.explanation;
+            document.getElementById('poem-explanation').textContent = poem.explanation || "暂无解析";
+            
+            // 更新导航按钮状态
+            updateNavButtons();
             
             // 切换到详情页
             showSection('poem-detail');
+        }
+        
+        // 更新导航按钮状态
+        function updateNavButtons() {
+            const filteredPoems = filterPoemsByTerms();
+            const currentIndex = filteredPoems.findIndex(p => p.id === currentPoem.id);
+            
+            prevPoemBtn.disabled = currentIndex <= 0;
+            nextPoemBtn.disabled = currentIndex >= filteredPoems.length - 1;
+        }
+        
+        // 导航到上一首或下一首
+        function navigatePoem(direction) {
+            const filteredPoems = filterPoemsByTerms();
+            const currentIndex = filteredPoems.findIndex(p => p.id === currentPoem.id);
+            
+            let newIndex;
+            if (direction === 'prev') {
+                newIndex = currentIndex - 1;
+            } else {
+                newIndex = currentIndex + 1;
+            }
+            
+            if (newIndex >= 0 && newIndex < filteredPoems.length) {
+                showPoemDetail(filteredPoems[newIndex]);
+            }
         }
         
         // 显示指定部分
@@ -968,10 +1179,15 @@
                     
                     // 切换到背诵模式时随机选择一首诗
                     if (tab.dataset.target === 'recite-mode') {
-                        const randomPoem = currentPoems[Math.floor(Math.random() * currentPoems.length)];
-                        currentPoem = randomPoem;
-                        generateReciteContent(randomPoem);
-                        resetReciteScores();
+                        const filteredPoems = filterPoemsByTerms();
+                        if (filteredPoems.length > 0) {
+                            const randomPoem = filteredPoems[Math.floor(Math.random() * filteredPoems.length)];
+                            currentPoem = randomPoem;
+                            generateReciteContent(randomPoem);
+                            resetReciteScores();
+                        } else {
+                            reciteContent.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--gray);">当前筛选条件下没有诗词</div>';
+                        }
                     }
                     
                     showSection(tab.dataset.target);
@@ -1004,15 +1220,34 @@
                 return;
             }
             
-            const randomIndex = Math.floor(Math.random() * famousLines.length);
-            const correctLine = famousLines[randomIndex];
+            const filteredPoems = filterPoemsByTerms();
+            if (filteredPoems.length === 0) {
+                gameQuestion.textContent = "当前筛选条件下没有诗词";
+                return;
+            }
+            
+            // 从当前筛选的诗词中随机选择一句
+            let availableLines = [];
+            famousLines.forEach(line => {
+                if (filteredPoems.some(p => p.id === line.poemId)) {
+                    availableLines.push(line);
+                }
+            });
+            
+            if (availableLines.length === 0) {
+                gameQuestion.textContent = "当前筛选条件下没有可用的诗句";
+                return;
+            }
+            
+            const randomIndex = Math.floor(Math.random() * availableLines.length);
+            const correctLine = availableLines[randomIndex];
             
             // 找到对应的诗词
-            const poem = currentPoems.find(p => p.id === correctLine.poemId);
+            const poem = filteredPoems.find(p => p.id === correctLine.poemId);
             if (!poem) return;
             
             // 分割诗句
-            const lines = poem.content.split(/[，。；？：、”]/).filter(line => line.trim() !== '');
+            const lines = poem.content.split(/[，。；？：、”！]/).filter(line => line.trim() !== '');
             const lineIndex = lines.findIndex(line => line.includes(correctLine.content));
             
             if (lineIndex === -1) return;
@@ -1121,7 +1356,7 @@
         
         // 生成背诵内容
         function generateReciteContent(poem) {
-            const lines = poem.content.split(/[，。；？：、”]/).filter(line => line.trim() !== '');
+            const lines = poem.content.split(/[，。；？：、”！]/).filter(line => line.trim() !== '');
             let contentHTML = `
                 <h3 style="margin-bottom: 15px; color: var(--primary);">${poem.title}</h3>
                 <p>请填写空白处的诗句：</p>
@@ -1153,9 +1388,9 @@
                 let html = '';
                 for (let i = 0; i < correctAnswer.length; i++) {
                     if (i < userAnswer.length && userAnswer[i] === correctAnswer[i]) {
-                        html += `<span style="color:#27ae60">${correctAnswer[i]}</span>`; // 正确→绿色
+                        html += `<span style="color:#27ae60">${correctAnswer[i]}</span>`;
                     } else {
-                        html += `<span style="color:#e74c3c">${correctAnswer[i]}</span>`;  // 错误→红色
+                        html += `<span style="color:#e74c3c">${correctAnswer[i]}</span>`;
                         allCorrect = false;
                     }
                 }
@@ -1171,32 +1406,33 @@
                 input.disabled = true;
             });
 
-            // 原有逻辑：统计分数等保持不变
             if (allCorrect) {
-                reciteScore += 10;                      // 答对 +10
+                reciteScore += 10;
                 document.getElementById('recite-score').textContent = reciteScore;
-                setTimeout(nextRecitePoem, 500);        // 继续下一首
+                setTimeout(nextRecitePoem, 500);
             } else {
                 errorCount++;
-  		  document.getElementById('error-count').textContent = errorCount;
- 		   if (errorCount >= 5) {
-     		      setTimeout(() => {
-    		          alert(`背诵结束！累计积分：${reciteScore}`);
-       		          showSection('poem-list');
-         	         resetReciteScores();
-     		   }, 500);
-	    } else {
-        // 错误次数未达5次，1秒后进入下一题
-        setTimeout(nextRecitePoem, 1000);
-  	  }
-	}
-      }
+                document.getElementById('error-count').textContent = errorCount;
+                if (errorCount >= 5) {
+                    setTimeout(() => {
+                        alert(`背诵结束！累计积分：${reciteScore}`);
+                        showSection('poem-list');
+                        resetReciteScores();
+                    }, 500);
+                } else {
+                    setTimeout(nextRecitePoem, 1000);
+                }
+            }
+        }
 
         // 随机下一首
         function nextRecitePoem() {
-            const randomPoem = currentPoems[Math.floor(Math.random() * currentPoems.length)];
-            currentPoem = randomPoem;
-            generateReciteContent(randomPoem);
+            const filteredPoems = filterPoemsByTerms();
+            if (filteredPoems.length > 0) {
+                const randomPoem = filteredPoems[Math.floor(Math.random() * filteredPoems.length)];
+                currentPoem = randomPoem;
+                generateReciteContent(randomPoem);
+            }
         }
 
         // 重置背诵分数
@@ -1208,40 +1444,101 @@
         }
         
         // 切换年级
-        function switchGrade(grade) {
-            // 更新按钮状态
-            primaryGradeBtn.classList.remove('active');
-            juniorGradeBtn.classList.remove('active');
+         function switchGrade(grade) {
+        // 更新按钮状态
+        primaryGradeBtn.classList.remove('active');
+        juniorGradeBtn.classList.remove('active');
+        
+        if (grade === 'primary') {
+            primaryGradeBtn.classList.add('active');
+            currentPoems = primaryPoems;
+            document.body.className = 'primary-theme';
+            currentGrade = 'primary';
             
-            if (grade === 'primary') {
-                primaryGradeBtn.classList.add('active');
-                currentPoems = primaryPoems;
-                document.body.className = 'primary-theme';
-            } else {
-                juniorGradeBtn.classList.add('active');
-                currentPoems = juniorPoems;
-                document.body.className = 'junior-theme';
-            }
+            // 显示对应的学期选择器
+            primaryTermSelector.style.display = 'flex';
+            juniorTermSelector.style.display = 'none';
+        } else {
+            juniorGradeBtn.classList.add('active');
+            currentPoems = juniorPoems;
+            document.body.className = 'junior-theme';
+            currentGrade = 'junior';
             
-            // 更新名句库
-            updateFamousLines();
-            
-            // 重新初始化列表
-            initPoemList();
-            
-            // 如果当前在背诵或游戏模式，重置状态
-            if (document.getElementById('recite-mode').classList.contains('active')) {
-                const randomPoem = currentPoems[Math.floor(Math.random() * currentPoems.length)];
+            // 显示对应的学期选择器
+            primaryTermSelector.style.display = 'none';
+            juniorTermSelector.style.display = 'flex';
+        }
+        
+        // 重置学期选择
+        document.querySelectorAll('.term-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`.term-btn[data-term="all"][data-grade="${grade}"]`).classList.add('active');
+        currentTerms = ['all'];
+        
+        // 更新名句库
+        updateFamousLines();
+        
+        // 重新初始化列表
+        initPoemList();
+        
+        // 如果当前在背诵或游戏模式，重置状态
+        if (document.getElementById('recite-mode').classList.contains('active')) {
+            const filteredPoems = filterPoemsByTerms();
+            if (filteredPoems.length > 0) {
+                const randomPoem = filteredPoems[Math.floor(Math.random() * filteredPoems.length)];
                 currentPoem = randomPoem;
                 generateReciteContent(randomPoem);
                 resetReciteScores();
-            }
-            
-            if (document.getElementById('game-mode').classList.contains('active')) {
-                resetGameScores();
-                generateGameQuestion();
+            } else {
+                reciteContent.innerHTML = '<div style="text-align: center; padding: 20px; color: var(--gray);">当前筛选条件下没有诗词</div>';
             }
         }
+        
+        if (document.getElementById('game-mode').classList.contains('active')) {
+            resetGameScores();
+            generateGameQuestion();
+        }
+    }
+    
+    // 处理学期选择
+    function handleTermSelection(term, grade) {
+        const btn = document.querySelector(`.term-btn[data-term="${term}"][data-grade="${grade}"]`);
+        
+        if (term === 'all') {
+    // 选择"全部"时，取消其他选择
+    document.querySelectorAll(`.term-btn[data-grade="${grade}"]`).forEach(b => {
+        b.classList.remove('active');
+    });
+    btn.classList.add('active');
+    currentTerms = ['all']; // ✅ 正确覆盖
+} else {
+    // 选择具体学期时，取消"全部"选择
+    document.querySelector(`.term-btn[data-term="all"][data-grade="${grade}"]`).classList.remove('active');
+
+    if (btn.classList.contains('active')) {
+        btn.classList.remove('active');
+        currentTerms = currentTerms.filter(t => t !== term);
+    } else {
+        btn.classList.add('active');
+        currentTerms.push(term);
+    }
+
+    // ✅ 关键：移除 'all'
+    currentTerms = currentTerms.filter(t => t !== 'all');
+}
+        
+        // 更新诗词列表
+        initPoemList();
+        
+        // 更新名句库
+        updateFamousLines();
+        
+        // 如果当前在详情页，更新导航按钮状态
+        if (currentPoem && document.getElementById('poem-detail').classList.contains('active')) {
+            updateNavButtons();
+        }
+    }
         
         // 初始化事件监听
         function initEventListeners() {
@@ -1280,6 +1577,19 @@
             // 年级切换按钮
             primaryGradeBtn.addEventListener('click', () => switchGrade('primary'));
             juniorGradeBtn.addEventListener('click', () => switchGrade('junior'));
+            
+            // 学期选择按钮
+            document.querySelectorAll('.term-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const term = btn.dataset.term;
+                    const grade = btn.dataset.grade;
+                    handleTermSelection(term, grade);
+                });
+            });
+            
+            // 导航按钮
+            prevPoemBtn.addEventListener('click', () => navigatePoem('prev'));
+            nextPoemBtn.addEventListener('click', () => navigatePoem('next'));
         }
         
         // 初始化应用
