@@ -222,7 +222,99 @@
             padding: 15px;
             border-left: 4px solid var(--primary);
         }
+
+/* 1. 默认状态：紫色渐变 */
+/* 只定义背景色，其他属性（圆角、阴影、大小）自动继承 .action-button，保证绝对统一 */
+.mark-btn {
+    background: linear-gradient(135deg, #7E57C2, #B39DDB); /* 介于蓝色和黄色之间的紫色，和谐 */
+    /* 关键：删掉了之前的 margin-top 和 box-shadow 设置，让它自动对齐 */
+}
+
+/* 2. 激活状态：绿色渐变 */
+/* 点击后变成代表“成功”的绿色 */
+.mark-btn.active {
+    background: linear-gradient(135deg, #43A047, #66BB6A); /* 经典的成功绿 */
+}
+
+/* 3. 悬停微调 */
+.mark-btn:hover {
+    /* 只需要微调亮度，位移效果 .action-button 已经自带了 */
+    filter: brightness(1.1);
+}
+
+/* 水印默认状态：完全隐藏 */
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-25deg) scale(0.8); /* 默认稍微缩小一点 */
+    font-size: 6rem;
+    font-weight: 900;
+    pointer-events: none;
+    border: 8px solid rgba(220, 53, 69, 0.2); /* 边框颜色固定，靠opacity隐藏 */
+    color: rgba(220, 53, 69, 0.2); /* 文字颜色固定，靠opacity隐藏 */
+    padding: 10px 40px;
+    border-radius: 20px;
+    z-index: 10;
+    white-space: nowrap;
+    font-family: 'KaiTi', '楷体', serif;
+    
+    /* 关键修改：默认透明度为0，且不可见 */
+    opacity: 0;
+    visibility: hidden; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 水印激活状态：显示 */
+.watermark.show {
+    /* 关键修改：激活时变为可见 */
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) rotate(-25deg) scale(1);
+}
+
         
+/* --- 卡片水印样式开始 --- */
+
+/* 必须确保卡片本身是相对定位，这样水印才能定位在它里面 */
+.poem-item {
+    /* 原有样式保持不变... */
+    position: relative; /* 确保这一行存在 */
+}
+
+/* 小卡片上的“真棒”水印 */
+.card-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* 居中并旋转 */
+    transform: translate(-50%, -50%) rotate(-25deg);
+    
+    font-size: 2rem; /* 字体改小，适应卡片 */
+    font-family: 'KaiTi', '楷体', serif;
+    font-weight: 900;
+    
+    /* 红色印章风格，半透明 */
+    color: rgba(220, 53, 69, 0.3); 
+    border: 3px solid rgba(220, 53, 69, 0.3);
+    border-radius: 8px;
+    padding: 5px 10px;
+    
+    pointer-events: none; /* 让点击穿透水印，不影响点卡片 */
+    z-index: 5;
+    white-space: nowrap;
+    
+    /* 默认隐藏，只有背会了才显示 */
+    display: none; 
+}
+
+/* 当卡片被标记为“memorized”时，显示水印 */
+.poem-item.memorized .card-watermark {
+    display: block;
+}
+
+/* --- 卡片水印样式结束 --- */
+
         .poem-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -733,7 +825,8 @@
                 <i class="fas fa-arrow-left"></i> 返回列表
             </button>
             <div class="poem-detail">
-                <div class="detail-header">
+		<div class="watermark" id="poem-watermark">真棒👍</div> 
+ 	                <div class="detail-header">
                     <h2 class="detail-title" id="detail-title">江南</h2>
                     <div class="detail-author" id="detail-author">汉乐府</div>
                 </div>
@@ -767,6 +860,11 @@
                         <i class="fas fa-gamepad"></i>
                         诗词接龙
                     </button>
+		<!-- 新增：标记按钮 -->
+            <button class="action-button mark-btn" id="toggle-mark-btn">
+                <i class="fas fa-check-circle"></i>
+                <span id="mark-text">标记背会</span>
+            </button>
                 </div>
             </div>
         </div>
@@ -1029,6 +1127,24 @@
         
         // 游戏状态
         let currentPoem = null;
+// 从本地存储加载已背诵的诗词ID列表
+let memorizedPoems = new Set(JSON.parse(localStorage.getItem('memorizedPoems') || '[]'));
+
+// 保存状态到本地存储
+function saveMemorizedStatus() {
+    localStorage.setItem('memorizedPoems', JSON.stringify(Array.from(memorizedPoems)));
+	// 关键：保存后立即刷新列表，这样水印才会立刻出现
+    initPoemList(); 
+    updatePoemListStatus(); // 更新列表页的标记
+}
+
+function updatePoemListStatus() {
+    // 刷新列表显示，如果在列表页的话
+    if (document.getElementById('poem-list').classList.contains('active')) {
+        initPoemList();
+    }
+}
+
         let gameScore = 0;
         let correctCount = 0;
         let wrongCount = 0;
@@ -1089,10 +1205,15 @@ function range(start, end) {
     filteredPoems.forEach(poem => {
         const poemItem = document.createElement('div');
         poemItem.className = 'poem-item';
+// --- 新增：如果已背诵，添加类名 ---
+    if (memorizedPoems.has(poem.id)) {
+        poemItem.classList.add('memorized');
+    }
         poemItem.innerHTML = `
             <div class="poem-index">${poem.id}</div>
             <div class="poem-title">${poem.title}</div>
             <div class="poem-author">${poem.author}</div>
+	    <div class="card-watermark">真棒👍</div>
         `;
         poemItem.addEventListener('click', () => showPoemDetail(poem));
         poemList.appendChild(poemItem);
@@ -1121,13 +1242,40 @@ console.log('实际渲染诗词数量：', document.querySelectorAll('.poem-item
                     .join('<br>');
             document.getElementById('poem-explanation').textContent = poem.explanation || "暂无解析";
             
+
             // 更新导航按钮状态
             updateNavButtons();
+
+	  // --- 新增：更新背诵状态UI ---
+	    updateDetailStatus(poem.id);
             
             // 切换到详情页
             showSection('poem-detail');
         }
         
+// --- 新增逻辑：更新详情页的水印和按钮状态 ---
+function updateDetailStatus(poemId) {
+    const watermark = document.getElementById('poem-watermark');
+    const markBtn = document.getElementById('toggle-mark-btn');
+    const markText = document.getElementById('mark-text');
+    const markIcon = markBtn.querySelector('i');
+    
+    if (memorizedPoems.has(poemId)) {
+        // 已背会状态
+        watermark.classList.add('show');
+        markBtn.classList.add('active');
+        markText.textContent = "已背会";
+        markIcon.className = "fas fa-check-circle";
+    } else {
+        // 未背会状态
+        watermark.classList.remove('show');
+        markBtn.classList.remove('active');
+        markText.textContent = "标记背会";
+        markIcon.className = "far fa-circle";
+    }
+}
+
+
         // 更新导航按钮状态
         function updateNavButtons() {
             const filteredPoems = filterPoemsByTerms();
@@ -1590,6 +1738,25 @@ console.log('实际渲染诗词数量：', document.querySelectorAll('.poem-item
             // 导航按钮
             prevPoemBtn.addEventListener('click', () => navigatePoem('prev'));
             nextPoemBtn.addEventListener('click', () => navigatePoem('next'));
+
+// --- 新增：标记按钮点击事件 ---
+document.getElementById('toggle-mark-btn').addEventListener('click', () => {
+    if (!currentPoem) return;
+    
+    if (memorizedPoems.has(currentPoem.id)) {
+        memorizedPoems.delete(currentPoem.id); // 取消背诵
+    } else {
+        memorizedPoems.add(currentPoem.id); // 标记为背诵
+        
+        // 可选：添加一点撒花特效或提示音
+        // 简单弹窗反馈
+        if(navigator.vibrate) navigator.vibrate(50); // 手机震动反馈
+    }
+    
+    saveMemorizedStatus();
+    updateDetailStatus(currentPoem.id);
+});
+
         }
         
         // 初始化应用
